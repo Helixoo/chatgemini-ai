@@ -86,9 +86,6 @@ const ChatInterface = () => {
     <div className="flex flex-col h-screen max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-xl rounded-lg">
       <div className="p-4 border-b dark:border-gray-700">
         <h1 className="text-2xl font-bold text-primary dark:text-white">AI Sohbet</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Markdown formatlaması: **kalın**, *italik*, `kod`
-        </p>
       </div>
       <MessageList messages={messages} isLoading={isLoading} />
       <MessageInput onSend={sendMessage} isLoading={isLoading} />
