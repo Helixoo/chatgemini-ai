@@ -17,6 +17,16 @@ const ChatInterface = () => {
   const sendMessage = async (content: string) => {
     if (!content.trim()) return;
 
+    const apiKey = localStorage.getItem("GEMINI_API_KEY");
+    if (!apiKey) {
+      toast({
+        variant: "destructive",
+        title: "Hata!",
+        description: "API anahtarı bulunamadı. Lütfen API anahtarınızı girin.",
+      });
+      return;
+    }
+
     const newUserMessage: Message = {
       id: Date.now().toString(),
       content,
@@ -27,11 +37,10 @@ const ChatInterface = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent", {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("GEMINI_API_KEY")}`,
         },
         body: JSON.stringify({
           contents: [
@@ -67,6 +76,7 @@ const ChatInterface = () => {
         title: "Hata!",
         description: "Mesaj gönderilemedi. Lütfen API anahtarınızı kontrol edin.",
       });
+      console.error("API Error:", error);
     } finally {
       setIsLoading(false);
     }
